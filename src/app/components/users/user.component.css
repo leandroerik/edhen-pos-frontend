@@ -1,140 +1,150 @@
+body {
+    background-color: #f7f7f7; /* Un gris muy claro como fondo */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 .user-table-container {
-  max-width: 100vh;
-  margin: 4vh auto;
-  font-family: Arial, sans-serif;
-  text-align: center;
+    max-width: 90%; /* Ajustado para que ocupe gran parte de la pantalla */
+    margin: 40px auto;
+    text-align: center;
 }
 
 .user-table-container h2 {
-  margin-bottom: 2vh;
-  color: #333;
+    margin-bottom: 25px;
+    color: #000;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .user-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    border-collapse: collapse; /* Para que las celdas se toquen */
+    background: #fff;
+    border: 1px solid #e0e0e0; /* Un borde sutil para enmarcar la tabla */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden; /* Importante para que los bordes redondeados se apliquen bien */
+    font-size: 14px;
 }
 
 .user-table th, .user-table td {
-  border: 1px solid #ddd;
-  padding: 2vh;
+    border: none; /* Eliminamos los bordes internos para un look más limpio */
+    padding: 15px; /* Más espacio para que el contenido respire */
+    text-align: left;
+    vertical-align: middle;
 }
 
 .user-table th {
-  background: #007bff;
-  color: white;
+    background: #000;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.user-table tbody tr {
+    transition: background-color 0.3s;
 }
 
 .user-table tbody tr:nth-child(even) {
-  background: #f2f2f2;
+    background: #fcfcfc; /* Un blanco muy sutil para diferenciar filas */
 }
 
 .user-table tbody tr:hover {
-  background: #ddd;
+    background: #f0f0f0;
+}
+
+.edit-button,
+.delete-button {
+    background: none; /* Fondo transparente */
+    border: none;
+    padding: 8px; /* Un padding más pequeño para centrar el icono */
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 auto; /* Centramos el botón en su celda */
 }
 
 .edit-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 1vh 1vh;
-  border-radius: 0.5vh;
-  cursor: pointer;
-  display: flex;
-  margin-left: 4vh;
-  align-items: center;
-  font-size: 3vh;
-  transition: background 0.3s ease;
-}
-
-.edit-button i, .edit-button .material-icons {
-  font-size: 3vh;
+    color: #000; /* Icono negro */
 }
 
 .edit-button:hover {
-  background-color: #0056b3;
+    background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
 }
 
 .delete-button {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 1vh 1vh;
-  border-radius: 0.5vh;
-  cursor: pointer;
-  display: flex;
-  margin-left: 4vh;
-  align-items: center;
-  font-size: 3vh;
-  transition: background 0.3s ease;
-}
-
-.delete-button i, .delete-button .material-icons {
-  font-size: 3vh;
+    color: #e50000; /* Un color de error sutil */
 }
 
 .delete-button:hover {
-  background-color: darkred;
+    background-color: #fcecec; /* Un fondo rosa muy claro al pasar el mouse */
+}
+
+.edit-button .material-icons,
+.delete-button .material-icons {
+    font-size: 20px;
+}
+
+.delete-confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Overlay semitransparente */
+    z-index: 9998;
 }
 
 .delete-confirmation {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999; 
-  padding: 2vh;
-  background-color: #fff3cd;
-  border: 1px solid #ffeeba;
-  text-align: center;
-  border-radius: 1vh;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  max-width: 50vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
 }
-
-
-.delete-confirmation-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 9998;
-}
-
 
 .delete-confirmation p {
-  margin-bottom: 2vh;
-  color: #856404;
-  font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+    font-weight: 500;
 }
 
 .delete-confirmation button {
-  margin: 0.5vh;
-  padding: 1vh 2vh;
-  cursor: pointer;
-  border: none;
-  border-radius: 0.5vh;
-  transition: background 0.3s ease;
+    padding: 10px 20px;
+    margin: 0 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.delete-confirmation button:first-child {
-  background-color: red;
-  color: white;
+.delete-confirmation .confirm-delete {
+    background-color: #000;
+    color: white;
 }
 
-.delete-confirmation button:first-child:hover {
-  background-color: darkred;
+.delete-confirmation .confirm-delete:hover {
+    background-color: #333;
 }
 
-.delete-confirmation button:last-child {
-  background-color: #007bff;
-  color:   white;
+.delete-confirmation .cancel-delete {
+    background-color: #fff;
+    color: #000;
+    border-color: #000;
 }
 
-.delete-confirmation button:last-child:hover {
-  background-color: #0056b3;
+.delete-confirmation .cancel-delete:hover {
+    background-color: #f0f0f0;
 }
