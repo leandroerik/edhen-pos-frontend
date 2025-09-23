@@ -1,0 +1,53 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="onClose()">&times;</button>
+    
+    <div class="modal-body">
+      <img [src]="product.image" [alt]="product.name" class="modal-image">
+      <div class="modal-details">
+        <h3>{{ product.name }}</h3>
+        <p class="modal-price">${{ product.price | number:'1.2-2' }}</p>
+
+        <div class="variant-group">
+          <h4>TALLE:</h4>
+          <div class="variant-buttons">
+            <button 
+              *ngFor="let talla of product.tallas"
+              [class.active]="talla === selectedTalla"
+              [disabled]="!isTallaInStock(talla)"
+              (click)="selectedTalla = talla; updateStock()">
+              {{ talla }}
+            </button>
+          </div>
+        </div>
+
+        <div class="variant-group">
+          <h4>COLOR:</h4>
+          <div class="variant-buttons">
+<button 
+  *ngFor="let color of product.colores"
+  [class.active]="color === selectedColor"
+  [disabled]="!isColorInStock(color)"
+  (click)="selectedColor = color; updateStock()">
+  {{ color }}
+</button>
+          </div>
+        </div>
+        
+        <div class="stock-info">
+          {{ stockDisponible }} disponibles
+        </div>
+        
+        <div class="quantity-control">
+          <button (click)="decrementQuantity()">-</button>
+          <input type="number" [(ngModel)]="quantity" [min]="1" [max]="stockDisponible" readonly>
+          <button (click)="incrementQuantity()">+</button>
+        </div>
+
+        <button class="modal-add-btn" (click)="onAddToCart()">
+          <i class="fas fa-cart-plus"></i> Añadir Al Carrito
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

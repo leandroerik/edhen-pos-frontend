@@ -2,28 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/users/user.service';
 import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
-import { FormUserComponent } from '../form-user/form-user.component';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user',
-  imports: [CommonModule,RouterModule],
+  standalone: true, // <-- Si estás en Angular 17+ y usas standalone components
+  imports: [CommonModule, RouterModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
-export class UserComponent implements OnInit{
+export class UserComponent implements OnInit {
 
-  users : User[] = [];
+  users: User[] = [];
   userToDelete: number | null = null;
-  constructor(private service: UserService){
 
-  }
+  constructor(private service: UserService) { }
 
   ngOnInit(): void {
-    this.service.findAll().subscribe(users=>this.users = users);
-   }
+    this.service.findAll().subscribe(users => this.users = users);
+  }
 
-   
   confirmDelete(userId: number) {
     this.userToDelete = userId;
   }
@@ -42,7 +40,6 @@ export class UserComponent implements OnInit{
       });
     }
   }
-  
 
   cancelDelete() {
     this.userToDelete = null;

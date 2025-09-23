@@ -1,0 +1,17 @@
+<div class="scanner-container">
+  <h1>Escáner de Código de Barras</h1>
+  
+  <div *ngIf="loading" class="loading-message">
+    Cargando cámara...
+  </div>
+  
+  <video #interactive id="interactive" class="viewport"></video>
+
+  <div *ngIf="result" class="result-message">
+    Código Escaneado: <strong>{{ result }}</strong>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>

@@ -1,169 +1,64 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    background-color: #e9e9e9;
-    color: #3a3a3a;
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f5f9; /* Un color de fondo suave para la aplicación */
 }
 
-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+.main-content {
+  flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+  padding: 20px;
+  margin-left: 250px; /* Ajusta este valor al ancho de tu barra lateral */
+  transition: margin-left 0.3s ease; /* Transición suave para cuando la barra lateral cambie de tamaño */
 }
 
-.container-header {
-    background-color: #1a1a1a; /* Negro sólido */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    padding: 15px 30px;
+.dashboard-header {
+  display: flex;
+  justify-content: flex-end; /* Alinea los elementos a la derecha */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.un-header {
-    margin: 0;
+.top-nav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
-.logo_img {
-    width: 60px;
-    filter: brightness(0) invert(1); /* Convierte el logo a blanco */
-    padding: 0;
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
 }
 
-.menu-toggle {
-    display: none;
-    font-size: 30px;
-    cursor: pointer;
-    padding: 10px;
-    color: #fff; /* Ícono de menú en blanco */
-    position: relative;
-    z-index: 101;
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Para hacer la imagen redonda */
 }
 
-.span_nav {
-    color: #fff; /* Texto del navbar en blanco */
-    margin-right: 0;
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.btn-secondary {
+  background-color: #e9ecef;
+  color: #495057;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    padding: 0;
-    margin: 0;
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
 }
 
-nav ul li a {
-    color: #e0e0e0; /* Blanco suave para los enlaces */
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-nav ul li a:hover {
-    color: #fff; /* Se vuelve blanco puro al pasar el mouse */
-}
-
-@media (max-width: 768px) {
-    .container-header {
-        grid-template-columns: 1fr 1fr;
-    }
-    nav {
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #1a1a1a; /* Mismo negro en móvil */
-        justify-content: center;
-        align-items: center;
-        z-index: 100;
-        animation: slideInRight 0.5s ease forwards;
-    }
-
-    nav.active {
-        display: flex;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .menu-toggle {
-        display: block;
-        justify-self: end;
-        align-self: center;
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-footer {
-    background-color: #1a1a1a; /* El mismo negro sólido */
-    border-top: 1px solid #4a4a4a; /* Borde sutil gris para separación */
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.footer-container {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.footer-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-weight: 500;
-    color: #e0e0e0; /* Blanco suave */
-}
-
-.footer-icon {
-    width: 22px;
-    height: 22px;
-    filter: invert(1);
-}
-
-.footer-divider {
-    width: 1px;
-    height: 20px;
-    background: #4a4a4a; /* Gris sutil para el divisor */
-}
-
-@media (max-width: 768px) {
-    .footer-container {
-        gap: 15px;
-    }
-
-    .footer-icon {
-        width: 20px;
-        height: 20px;
-    }
+.btn-primary {
+  background-color: #28a745;
+  color: white;
 }

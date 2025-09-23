@@ -1,0 +1,52 @@
+<div class="pos-container">
+  <div class="left-panel">
+    <div class="customer-info">
+      <h4>Datos del Cliente y Envío</h4>
+      <input type="text" placeholder="Buscar cliente por DNI/Teléfono" class="customer-input">
+      <div class="customer-details">
+        <p><strong>Cliente:</strong> {{ customer.name }}</p>
+        <p><strong>Dirección de Envío:</strong> {{ customer.address }}</p>
+      </div>
+    </div>
+    
+    <div class="cart-details">
+      <h4>Productos del Pedido</h4>
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of items">
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-variant">{{ item.variant }}</span>
+          </div>
+          <span class="item-quantity">x {{ item.quantity }}</span>
+          <span class="item-price">${{ item.price | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="sale-summary">
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span>${{ subtotal | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-line">
+        <span>Costo de Envío</span>
+        <span>+ ${{ shippingCost | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-line total-line">
+        <span>Total</span>
+        <span>${{ total | number:'1.2-2' }}</span>
+      </div>
+    </div>
+    
+    <div class="payment-panel">
+      <h4>Método de Pago</h4>
+      <div class="payment-methods">
+        <button class="payment-btn"><i class="fas fa-credit-card"></i> Mercado Pago</button>
+        <button class="payment-btn"><i class="fas fa-exchange-alt"></i> Transferencia</button>
+      </div>
+      <button class="complete-sale-btn">Completar Pedido Online</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="pos-container">
+  <div class="left-panel">
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label for="category">Categoría:</label>
+        <select id="category" [(ngModel)]="selectedCategory" (change)="filterAndSortProducts()">
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="color">Color:</label>
+        <select id="color" [(ngModel)]="selectedColor" (change)="filterAndSortProducts()">
+          <option *ngFor="let col of colors" [value]="col">{{ col }}</option>
+        </select>
+      </div>
+      <div class="filter-group sort-group">
+        <label for="sort">Ordenar por:</label>
+        <select id="sort" [(ngModel)]="selectedSort" (change)="filterAndSortProducts()">
+          <option value="name-asc">Nombre (A-Z)</option>
+          <option value="price-asc">Precio (Menor a Mayor)</option>
+          <option value="price-desc">Precio (Mayor a Menor)</option>
+          <option value="most-sold">Más Vendidos</option>
+        </select>
+      </div>
+      <div class="filter-group sort-group">
+        <label for="stock">Stock:</label>
+        <select id="stock" [(ngModel)]="selectedStockFilter" (change)="filterAndSortProducts()">
+          <option value="all">Todo</option>
+          <option value="low">Poco Stock</option>
+          <option value="high">Mucho Stock</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let product of products" (click)="openModal(product)">
+        <img [src]="product.image" [alt]="product.name" class="product-image">
+        <div class="product-info">
+          <h4 class="product-name">{{ product.name }}</h4>
+          <span class="product-price">${{ product.price | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="cart-details">
+      <h4>Detalles de la Venta</h4>
+      <div class="cart-items">
+        <div class="cart-item" *ngIf="items.length === 0">
+          <p class="empty-cart-message">No hay productos en el carrito.</p>
+        </div>
+        <div class="cart-item" *ngFor="let item of items; let i = index">
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-variant">Talle: {{ item.variant.talla }}, Color: {{ item.variant.color }}</span>
+          </div>
+          <span class="item-quantity">x {{ item.quantity }}</span>
+          <span class="item-price">${{ item.price | number:'1.2-2' }}</span>
+          <button class="remove-item-btn" (click)="removeFromCart(i)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="sale-summary">
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span>${{ subtotal | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-line">
+        <span>Descuento</span>
+        <span>- ${{ discount | number:'1.2-2' }}</span>
+      </div>
+      <div class="summary-line total-line">
+        <span>Total</span>
+        <span>${{ total | number:'1.2-2' }}</span>
+      </div>
+    </div>
+    
+    <div class="payment-panel">
+      <h4>Método de Pago</h4>
+      <div class="payment-methods">
+        <button class="payment-btn"><i class="fas fa-money-bill-wave"></i> Efectivo</button>
+        <button class="payment-btn"><i class="fas fa-credit-card"></i> Tarjeta</button>
+      </div>
+      <button class="complete-sale-btn">Completar Venta</button>
+    </div>
+  </div>
+</div>
+
+<app-product-modal 
+  *ngIf="showModal" 
+  [product]="selectedProduct" 
+  (productAdded)="addItemToCart($event)"
+  (closeModal)="closeProductModal()">
+</app-product-modal>

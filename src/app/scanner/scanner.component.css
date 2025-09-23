@@ -1,0 +1,44 @@
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f0f2f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.loading-message, .result-message, .error-message {
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.loading-message {
+  color: #555;
+}
+
+.result-message {
+  color: #008c9e;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+}

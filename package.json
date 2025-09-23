@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "custom-crud-front": "file:",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

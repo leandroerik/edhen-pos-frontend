@@ -1,0 +1,249 @@
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  position: fixed; /* Makes the sidebar stay in place as you scroll */
+  top: 0;
+  left: 0;
+  overflow-y: auto; /* Adds a scrollbar if there are many links */
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo-container img {
+  width: 80px;
+}
+
+.sidebar h3 {
+  font-size: 1.25rem;
+  color: #343a40;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-bottom: 0.5rem;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #495057;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+.nav-links i {
+  font-size: 1.25rem;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.user-profile {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.store-name {
+  display: block;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-links li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #495057;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+.nav-links i {
+  width: 20px;
+  text-align: center;
+}
+
+.dropdown a {
+  cursor: pointer;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 30px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.submenu.open {
+  max-height: 500px; /* A large value to allow the menu to expand */
+}
+
+.submenu a {
+  padding: 8px 0;
+}
+
+.action-btn {
+  background-color: black;
+  color: white;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+/* Estilos adicionales para mejorar la apariencia */
+/* Estilos de los enlaces principales */
+.nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-links li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #495057;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+/* Estilo para los títulos de sección (los elementos que despliegan el menú) */
+.parent-title {
+  font-weight: bold; /* Títulos en negrita */
+  color: #343a40; /* Un color más oscuro para los títulos */
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.parent-title:hover {
+    background-color: #f8f9fa; /* Un hover más sutil para los títulos */
+    color: #343a40;
+}
+
+/* Estilos de los íconos */
+.nav-links i {
+  width: 20px;
+  text-align: center;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Estilos del submenú */
+.submenu {
+  list-style: none;
+  padding-left: 10px; /* Reducimos el padding para que no se vea tan anidado */
+  margin: 5px 0 10px 0;
+  border-left: 2px solid #e0e0e0; /* Una línea para marcar que es un submenú */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.submenu.open {
+  max-height: 500px;
+}
+
+/* Estilos para los enlaces dentro del submenú */
+.submenu li a {
+    padding-left: 20px; /* Indentamos los enlaces del submenú */
+    font-size: 0.9em;
+}
+
+.menu-separator {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 10px 0;
+}
+/* Estilo del botón "Vender" */
+.action-btn {
+    display: block;
+    padding: 12px 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #28a745;
+    color: #ffffff; /* This is the key line to make the text white */
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
