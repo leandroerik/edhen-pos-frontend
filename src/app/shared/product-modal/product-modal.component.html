@@ -1,7 +1,23 @@
 <div class="modal-overlay" (click)="onClose()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="close-btn" (click)="onClose()">&times;</button>
-    
+    <div class="modal-header">
+      <div class="brand-badge">
+        <span class="brand-title">edhen</span>
+        <span class="brand-tagline">Signature Selection</span>
+      </div>
+      <button class="close-btn" (click)="onClose()">&times;</button>
+    </div>
+
+    <div class="brand-palette">
+      <span class="palette-label">Paleta Edhen</span>
+      <div class="palette-swatches">
+        <div class="palette-swatch" *ngFor="let tone of brandPalette">
+          <span class="swatch-color" [style.background-color]="tone.hex"></span>
+          <span class="swatch-name">{{ tone.name }}</span>
+        </div>
+      </div>
+    </div>
+
     <div class="modal-body">
       <img [src]="product.image" [alt]="product.name" class="modal-image">
       <div class="modal-details">
@@ -9,10 +25,11 @@
         <p class="modal-price">${{ product.price | number:'1.2-2' }}</p>
 
         <div class="variant-group">
-          <h4>TALLE:</h4>
+          <h4>Talle</h4>
           <div class="variant-buttons">
-            <button 
+            <button
               *ngFor="let talla of product.tallas"
+              class="size-button"
               [class.active]="talla === selectedTalla"
               [disabled]="!isTallaInStock(talla)"
               (click)="selectedTalla = talla; updateStock()">
@@ -22,22 +39,27 @@
         </div>
 
         <div class="variant-group">
-          <h4>COLOR:</h4>
+          <h4>Color</h4>
           <div class="variant-buttons">
-<button 
-  *ngFor="let color of product.colores"
-  [class.active]="color === selectedColor"
-  [disabled]="!isColorInStock(color)"
-  (click)="selectedColor = color; updateStock()">
-  {{ color }}
-</button>
+            <button
+              *ngFor="let color of product.colores"
+              class="color-button"
+              [ngStyle]="getColorStyle(color)"
+              [class.active]="color === selectedColor"
+              [disabled]="!isColorInStock(color)"
+              (click)="selectedColor = color; updateStock()">
+              <span class="color-swatch"></span>
+              <span class="variant-label">{{ color }}</span>
+            </button>
           </div>
         </div>
-        
-        <div class="stock-info">
-          {{ stockDisponible }} disponibles
-        </div>
-        
+
+        <div class="stock-info" *ngIf="stockDisponible > 0; else noStock">
+          {{ stockDisponible }} disponibles</div>
+        <ng-template #noStock>
+          <div class="stock-info stock-warning">Sin stock disponible</div>
+        </ng-template>
+
         <div class="quantity-control">
           <button (click)="decrementQuantity()">-</button>
           <input type="number" [(ngModel)]="quantity" [min]="1" [max]="stockDisponible" readonly>
@@ -45,7 +67,7 @@
         </div>
 
         <button class="modal-add-btn" (click)="onAddToCart()">
-          <i class="fas fa-cart-plus"></i> Añadir Al Carrito
+          <i class="fas fa-cart-plus"></i> Añadir al carrito
         </button>
       </div>
     </div>

@@ -3,17 +3,43 @@
 
   <main class="main-content">
     <div class="dashboard-header" *ngIf="showSidebar">
-      <div class="top-nav">
-        <div class="user-info">
-          <span>Juan Perez</span>
-          <img src="path/to/user-avatar.png" alt="User Avatar">
+      <div class="brand">
+        <span class="brand-mark">ED</span>
+        <div class="brand-copy">
+          <h1>Panel de ventas</h1>
+          <p>Turno activo</p>
         </div>
-        <div class="top-actions">
-          <button class="btn btn-secondary">Cambio de sucursal</button>
-          <button class="btn btn-danger">Cerrar turno</button>
+      </div>
 
-          <a routerLink="/ventas/local" class="btn btn-primary">Vender</a>
+      <div class="top-actions">
+        <a routerLink="/ventas/local" class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          Nueva venta
+        </a>
+        <button class="btn">
+          <i class="fas fa-search"></i>
+          Buscar producto
+        </button>
+        <button class="btn">
+          <i class="fas fa-tags"></i>
+          Aplicar descuento
+        </button>
+        <button class="btn">
+          <i class="fas fa-receipt"></i>
+          Ver tickets
+        </button>
+        <button class="btn btn-outline">
+          <i class="fas fa-door-open"></i>
+          Cerrar turno
+        </button>
+      </div>
+
+      <div class="session">
+        <div class="session-meta">
+          <span class="session-label">Cajero</span>
+          <span class="session-value">Juan Pérez</span>
         </div>
+        <div class="avatar">JP</div>
       </div>
     </div>
     <router-outlet></router-outlet>
