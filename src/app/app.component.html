@@ -1,8 +1,8 @@
-<div class="app-container">
-  <app-sidebar></app-sidebar> 
+<div class="app-container" [class.with-sidebar]="showSidebar">
+  <app-sidebar *ngIf="showSidebar"></app-sidebar>
 
   <main class="main-content">
-    <div class="dashboard-header">
+    <div class="dashboard-header" *ngIf="showSidebar">
       <div class="top-nav">
         <div class="user-info">
           <span>Juan Perez</span>
@@ -11,7 +11,7 @@
         <div class="top-actions">
           <button class="btn btn-secondary">Cambio de sucursal</button>
           <button class="btn btn-danger">Cerrar turno</button>
-          
+
           <a routerLink="/ventas/local" class="btn btn-primary">Vender</a>
         </div>
       </div>

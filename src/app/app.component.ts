@@ -1,8 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-import { AuthService } from './auth/serviceAuth/auth.service'; 
+import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { AuthService } from './auth/serviceAuth/auth.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +17,20 @@ export class AppComponent {
   isMenuActive = false;
   isSidebarMinimized = false; // <-- Declara esta propiedad
   isDesktop: boolean = window.innerWidth > 768;
-
+  showSidebar = false;
+  private readonly routesWithoutSidebar = ['/login'];
 
     // El método que maneja el evento emitido por el navbar
   onSidebarToggle(minimized: boolean): void {
     this.isSidebarMinimized = minimized;
   }
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.updateSidebarVisibility(this.router.url);
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(event => this.updateSidebarVisibility(event.urlAfterRedirects));
+  }
 
- 
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
@@ -45,5 +51,15 @@ export class AppComponent {
 
   toggleService(index: number) {
     this.expandedIndex = this.expandedIndex === index ? null : index;
+  }
+
+  private updateSidebarVisibility(url: string): void {
+    const normalizedUrl = this.normalizeUrl(url);
+    this.showSidebar = this.isLoggedIn && !this.routesWithoutSidebar.includes(normalizedUrl);
+  }
+
+  private normalizeUrl(url: string): string {
+    const cleanedUrl = url.split('?')[0];
+    return cleanedUrl.startsWith('/') ? cleanedUrl : `/${cleanedUrl}`;
   }
 }

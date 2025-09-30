@@ -7,8 +7,11 @@
 .main-content {
   flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
   padding: 20px;
-  margin-left: 250px; /* Ajusta este valor al ancho de tu barra lateral */
   transition: margin-left 0.3s ease; /* Transición suave para cuando la barra lateral cambie de tamaño */
+}
+
+.app-container.with-sidebar .main-content {
+  margin-left: 250px; /* Ajusta este valor al ancho de tu barra lateral */
 }
 
 .dashboard-header {

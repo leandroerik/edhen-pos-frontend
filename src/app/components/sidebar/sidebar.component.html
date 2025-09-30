@@ -9,77 +9,77 @@
     <span class="store-name">Sucursal Principal</span>
   </div>
 
-<ul class="nav-links">
-  <li><a routerLink="/ventas/nueva" class="action-btn">Vender</a></li>
+  <ul class="nav-links">
+    <li><a routerLink="/ventas/nueva" class="action-btn">Vender</a></li>
 
-  <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fas fa-chart-bar"></i> Dashboard</a></li>
-  
-  <div class="menu-separator"></div>
+    <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fas fa-chart-bar"></i> Dashboard</a></li>
 
-  <li class="dropdown">
-    <div class="parent-title" (click)="toggleMenu('ventas')">
-      <i class="fas fa-cash-register"></i> Ventas
-      <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('ventas')}"></i>
-    </div>
-    <ul class="submenu" [ngClass]="{'open': isMenuOpen('ventas')}">
-      <li><a routerLink="/ventas/local" routerLinkActive="active" (click)="$event.stopPropagation()">Local Físico</a></li>
-      <li><a routerLink="/ventas/online" routerLinkActive="active" (click)="$event.stopPropagation()">Ventas Online</a></li>
-      <li><a routerLink="/ventas/historial" routerLinkActive="active" (click)="$event.stopPropagation()">Historial de Ventas</a></li>
-    </ul>
-  </li>
+    <li class="menu-separator" role="presentation"></li>
 
-  <div class="menu-separator"></div>
+    <li class="dropdown">
+      <div class="parent-title" (click)="toggleMenu('ventas')">
+        <i class="fas fa-cash-register"></i> Ventas
+        <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('ventas')}"></i>
+      </div>
+      <ul class="submenu" [ngClass]="{'open': isMenuOpen('ventas')}">
+        <li><a routerLink="/ventas/local" routerLinkActive="active" (click)="$event.stopPropagation()">Local Físico</a></li>
+        <li><a routerLink="/ventas/online" routerLinkActive="active" (click)="$event.stopPropagation()">Ventas Online</a></li>
+        <li><a routerLink="/ventas/historial" routerLinkActive="active" (click)="$event.stopPropagation()">Historial de Ventas</a></li>
+      </ul>
+    </li>
 
-  <li class="dropdown">
-    <div class="parent-title" (click)="toggleMenu('inventario')">
-      <i class="fas fa-boxes"></i> Inventario
-      <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('inventario')}"></i>
-    </div>
-    <ul class="submenu" [ngClass]="{'open': isMenuOpen('inventario')}">
-      <li><a routerLink="/inventario/productos" routerLinkActive="active" (click)="$event.stopPropagation()">Gestión de Productos</a></li>
-      <li><a routerLink="/inventario/stock" routerLinkActive="active" (click)="$event.stopPropagation()">Stock y Tallas</a></li>
-      <li><a routerLink="/inventario/categorias" routerLinkActive="active" (click)="$event.stopPropagation()">Categorías</a></li>
-    </ul>
-  </li>
+    <li class="menu-separator" role="presentation"></li>
 
-  <div class="menu-separator"></div>
-  
-  <li class="dropdown">
-    <div class="parent-title" (click)="toggleMenu('clientes')">
-      <i class="fas fa-users"></i> Clientes
-      <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('clientes')}"></i>
-    </div>
-    <ul class="submenu" [ngClass]="{'open': isMenuOpen('clientes')}">
-      <li><a routerLink="/clientes/listado" routerLinkActive="active" (click)="$event.stopPropagation()">Listado</a></li>
-      <li><a routerLink="/clientes/direcciones" routerLinkActive="active" (click)="$event.stopPropagation()">Direcciones de Envío</a></li>
-    </ul>
-  </li>
+    <li class="dropdown">
+      <div class="parent-title" (click)="toggleMenu('inventario')">
+        <i class="fas fa-boxes"></i> Inventario
+        <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('inventario')}"></i>
+      </div>
+      <ul class="submenu" [ngClass]="{'open': isMenuOpen('inventario')}">
+        <li><a routerLink="/inventario/productos" routerLinkActive="active" (click)="$event.stopPropagation()">Gestión de Productos</a></li>
+        <li><a routerLink="/inventario/stock" routerLinkActive="active" (click)="$event.stopPropagation()">Stock y Tallas</a></li>
+        <li><a routerLink="/inventario/categorias" routerLinkActive="active" (click)="$event.stopPropagation()">Categorías</a></li>
+      </ul>
+    </li>
 
-  <div class="menu-separator"></div>
-  
-  <li class="dropdown">
-    <div class="parent-title" (click)="toggleMenu('envios')">
-      <i class="fas fa-truck"></i> Envíos
-      <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('envios')}"></i>
-    </div>
-    <ul class="submenu" [ngClass]="{'open': isMenuOpen('envios')}">
-      <li><a routerLink="/envios/pendientes" routerLinkActive="active" (click)="$event.stopPropagation()">Pedidos Pendientes</a></li>
-      <li><a routerLink="/envios/etiquetas" routerLinkActive="active" (click)="$event.stopPropagation()">Generar Etiquetas</a></li>
-      <li><a routerLink="/envios/historial" routerLinkActive="active" (click)="$event.stopPropagation()">Historial de Envíos</a></li>
-    </ul>
-  </li>
+    <li class="menu-separator" role="presentation"></li>
 
-  <div class="menu-separator"></div>
+    <li class="dropdown">
+      <div class="parent-title" (click)="toggleMenu('clientes')">
+        <i class="fas fa-users"></i> Clientes
+        <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('clientes')}"></i>
+      </div>
+      <ul class="submenu" [ngClass]="{'open': isMenuOpen('clientes')}">
+        <li><a routerLink="/clientes/listado" routerLinkActive="active" (click)="$event.stopPropagation()">Listado</a></li>
+        <li><a routerLink="/clientes/direcciones" routerLinkActive="active" (click)="$event.stopPropagation()">Direcciones de Envío</a></li>
+      </ul>
+    </li>
 
-  <li class="dropdown">
+    <li class="menu-separator" role="presentation"></li>
+
+    <li class="dropdown">
+      <div class="parent-title" (click)="toggleMenu('envios')">
+        <i class="fas a-truck"></i> Envíos
+        <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('envios')}"></i>
+      </div>
+      <ul class="submenu" [ngClass]="{'open': isMenuOpen('envios')}">
+        <li><a routerLink="/envios/pendientes" routerLinkActive="active" (click)="$event.stopPropagation()">Pedidos Pendientes</a></li>
+        <li><a routerLink="/envios/etiquetas" routerLinkActive="active" (click)="$event.stopPropagation()">Generar Etiquetas</a></li>
+        <li><a routerLink="/envios/historial" routerLinkActive="active" (click)="$event.stopPropagation()">Historial de Envíos</a></li>
+      </ul>
+    </li>
+
+    <li class="menu-separator" role="presentation"></li>
+
+    <li class="dropdown">
       <div class="parent-title" (click)="toggleMenu('reportes')">
-          <i class="fas fa-file-alt"></i> Reportes
-          <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('reportes')}"></i>
+        <i class="fas fa-file-alt"></i> Reportes
+        <i class="fas fa-chevron-down toggle-icon" [ngClass]="{'rotated': isMenuOpen('reportes')}"></i>
       </div>
       <ul class="submenu" [ngClass]="{'open': isMenuOpen('reportes')}">
-          <li><a routerLink="/reportes/ventas" routerLinkActive="active" (click)="$event.stopPropagation()">Reporte de Ventas</a></li>
-          <li><a routerLink="/reportes/stock" routerLinkActive="active" (click)="$event.stopPropagation()">Reporte de Stock</a></li>
+        <li><a routerLink="/reportes/ventas" routerLinkActive="active" (click)="$event.stopPropagation()">Reporte de Ventas</a></li>
+        <li><a routerLink="/reportes/stock" routerLinkActive="active" (click)="$event.stopPropagation()">Reporte de Stock</a></li>
       </ul>
-  </li>
-</ul>
+    </li>
+  </ul>
 </nav>
