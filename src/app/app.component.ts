@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth/serviceAuth/auth.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CartSidebarComponent } from './shared/cart-sidebar/cart-sidebar.component';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet, SidebarComponent],
+  imports: [CommonModule, RouterModule, RouterOutlet, SidebarComponent, CartSidebarComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

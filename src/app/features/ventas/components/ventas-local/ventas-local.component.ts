@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductModalComponent } from '../../../../shared/product-modal/product-modal.component';
+import { CartSaleReceipt, CartService } from '../../../../services/cart/cart.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CartSidebarService } from '../../../../services/cart/cart-sidebar.service';
 
 @Component({
   selector: 'app-ventas-local',
@@ -10,7 +14,7 @@ import { ProductModalComponent } from '../../../../shared/product-modal/product-
   templateUrl: './ventas-local.component.html',
   styleUrls: ['./ventas-local.component.css']
 })
-export class VentasLocalComponent implements OnInit {
+export class VentasLocalComponent implements OnInit, OnDestroy {
 
   // Tu lista completa de productos
   allProducts = [
@@ -20,6 +24,7 @@ export class VentasLocalComponent implements OnInit {
       image: 'https://placehold.co/200x200/cccccc/333333/png?text=Remera+Deportiva',
       price: 5000,
       category: 'Ropa Deportiva',
+      barcode: 'REM-DRY-0001',
       tallas: ['S', 'M', 'L', 'XL'],
       colores: ['Negro', 'Blanco', 'Gris'],
       stockTotal: 80,
@@ -42,6 +47,7 @@ export class VentasLocalComponent implements OnInit {
       image: 'https://placehold.co/200x200/cccccc/333333/png?text=Pantalón+Jean',
       price: 8500,
       category: 'Pantalones',
+      barcode: 'PAN-JEAN-0002',
       tallas: ['30', '32', '34', '36'],
       colores: ['Azul', 'Celeste'],
       stockTotal: 47,
@@ -60,6 +66,7 @@ export class VentasLocalComponent implements OnInit {
       image: 'https://placehold.co/200x200/cccccc/333333/png?text=Campera+Cuero',
       price: 15000,
       category: 'Camperas',
+      barcode: 'CAM-CUER-0003',
       tallas: ['S', 'M', 'L'],
       colores: ['Negro', 'Marrón'],
       stockTotal: 30,
@@ -77,6 +84,7 @@ export class VentasLocalComponent implements OnInit {
       image: 'https://placehold.co/200x200/cccccc/333333/png?text=Zapatillas+Urbanas',
       price: 12000,
       category: 'Calzado',
+      barcode: 'ZAP-URB-0004',
       tallas: ['38', '39', '40', '41', '42'],
       colores: ['Negro', 'Blanco'],
       stockTotal: 5,
@@ -91,8 +99,8 @@ export class VentasLocalComponent implements OnInit {
     }
   ];
 
-  products: any[] = []; 
-  
+  products: any[] = [];
+
   categories: string[] = [];
   colors: string[] = [];
 
@@ -101,18 +109,50 @@ export class VentasLocalComponent implements OnInit {
   selectedSort: string = 'name-asc';
   selectedStockFilter: string = 'all';
 
-  items: any[] = [];
-  subtotal: number = 0;
-  discount: number = 0;
-  total: number = 0;
+  totalItems: number = 0;
   showModal: boolean = false;
   selectedProduct: any;
+
+  lastScannedCode: string | null = null;
+  scanFeedbackMessage: string | null = null;
+  scanFeedbackType: 'success' | 'error' | 'info' = 'info';
+
+  private barcodeBuffer = '';
+  private lastKeyTime = 0;
+  private feedbackTimeout: any;
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private readonly cartService: CartService,
+    private readonly cartSidebar: CartSidebarService
+  ) {}
 
   ngOnInit(): void {
     this.categories = ['Todas', ...new Set(this.allProducts.map(p => p.category))];
     this.colors = ['Todos', ...new Set(this.allProducts.flatMap(p => p.colores))];
     this.filterAndSortProducts();
-    this.calculateTotals();
+    this.cartService.items$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(items => {
+        this.totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+      });
+
+    this.cartService.saleCompleted$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(sale => {
+        this.applySaleToInventory(sale);
+        this.lastScannedCode = null;
+        this.setScanFeedback('success', `Venta ${sale.saleId} generada. Stock actualizado.`);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+    }
   }
 
   // Método unificado para filtrar y ordenar
@@ -121,7 +161,7 @@ export class VentasLocalComponent implements OnInit {
     let filtered = this.allProducts.filter(product => {
       const categoryMatch = this.selectedCategory === 'Todas' || product.category === this.selectedCategory;
       const colorMatch = this.selectedColor === 'Todos' || product.colores.includes(this.selectedColor);
-      
+
       let stockMatch = true;
       if (this.selectedStockFilter === 'low') {
         stockMatch = product.stockTotal <= 10; // Ejemplo: stock bajo si es <= 10
@@ -150,40 +190,101 @@ export class VentasLocalComponent implements OnInit {
     this.selectedProduct = product;
     this.showModal = true;
   }
-  
+
   closeProductModal(): void {
     this.showModal = false;
     this.selectedProduct = null;
   }
 
   addItemToCart(event: { product: any, variant: any, quantity: number }): void {
-    const existingItem = this.items.find(
-      cartItem => cartItem.product.id === event.product.id && 
-      cartItem.variant.talla === event.variant.talla && 
-      cartItem.variant.color === event.variant.color
-    );
-    
-    if (existingItem) {
-      existingItem.quantity += event.quantity;
-    } else {
-      this.items.push({
-        product: event.product,
-        name: event.product.name,
-        variant: event.variant,
-        quantity: event.quantity,
-        price: event.product.price
-      });
+    this.cartService.addItem(event.product, event.variant, event.quantity);
+    this.setScanFeedback('success', `${event.product.name} agregado al carrito.`);
+  }
+
+  openCart(): void {
+    this.cartSidebar.open();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleGlobalKeydown(event: KeyboardEvent): void {
+    if (this.showModal) {
+      return;
     }
-    this.calculateTotals();
+
+    const target = event.target as HTMLElement | null;
+    if (target && ['INPUT', 'TEXTAREA'].includes(target.tagName)) {
+      return;
+    }
+
+    const currentTime = Date.now();
+    if (currentTime - this.lastKeyTime > 100) {
+      this.barcodeBuffer = '';
+    }
+
+    if (event.key === 'Enter') {
+      const barcode = this.barcodeBuffer.trim();
+      this.barcodeBuffer = '';
+      if (barcode) {
+        this.processBarcode(barcode);
+        event.preventDefault();
+      }
+      return;
+    }
+
+    if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      this.barcodeBuffer += event.key;
+    }
+
+    this.lastKeyTime = currentTime;
   }
 
-  removeFromCart(index: number): void {
-    this.items.splice(index, 1);
-    this.calculateTotals();
+  private processBarcode(barcode: string): void {
+    const product = this.allProducts.find(p => p.barcode === barcode);
+    if (!product) {
+      this.setScanFeedback('error', `No se encontró producto para el código ${barcode}.`);
+      return;
+    }
+
+    const variant = product.variants.find((v: any) => v.stock > 0);
+    if (!variant) {
+      this.setScanFeedback('error', `El producto ${product.name} no tiene stock disponible.`);
+      return;
+    }
+
+    this.cartService.addItem(product, variant, 1);
+    this.lastScannedCode = barcode;
+    this.setScanFeedback('success', `${product.name} agregado por escaneo.`);
   }
 
-  calculateTotals(): void {
-    this.subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    this.total = this.subtotal - this.discount;
+  private applySaleToInventory(sale: CartSaleReceipt): void {
+    sale.items.forEach(item => {
+      const product = this.allProducts.find(p => p.id === item.product.id);
+      if (!product) {
+        return;
+      }
+
+      const variant = product.variants.find((v: any) => v.talla === item.variant.talla && v.color === item.variant.color);
+      if (variant) {
+        variant.stock = Math.max(0, variant.stock - item.quantity);
+      }
+
+      product.stockTotal = Math.max(0, product.stockTotal - item.quantity);
+      product.salesCount = (product.salesCount ?? 0) + item.quantity;
+    });
+
+    this.filterAndSortProducts();
+  }
+
+  private setScanFeedback(type: 'success' | 'error' | 'info', message: string): void {
+    this.scanFeedbackType = type;
+    this.scanFeedbackMessage = message;
+
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+    }
+
+    this.feedbackTimeout = setTimeout(() => {
+      this.scanFeedbackMessage = null;
+    }, 4000);
   }
 }

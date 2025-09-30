@@ -1,0 +1,107 @@
+<div class="cart-toggle" (click)="toggleSidebar()" [attr.aria-expanded]="(isOpen$ | async) ? 'true' : 'false'">
+  <i class="fas fa-shopping-cart"></i>
+  <ng-container *ngIf="totals$ | async as totals">
+    <span class="cart-count" *ngIf="totals.totalItems > 0">{{ totals.totalItems }}</span>
+  </ng-container>
+</div>
+
+<div class="cart-overlay" *ngIf="isOpen$ | async">
+  <div class="overlay-backdrop" (click)="closeSidebar()"></div>
+  <aside class="cart-panel" role="dialog" aria-label="Carrito de venta">
+    <header class="cart-header">
+      <div>
+        <h3>Carrito activo</h3>
+        <p>Administra productos desde cualquier pantalla.</p>
+      </div>
+      <button type="button" class="icon-btn" (click)="closeSidebar()" aria-label="Cerrar carrito">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
+
+    <div class="cart-feedback" *ngIf="feedback" [ngClass]="feedback.type">
+      <i class="fas" [ngClass]="{
+        'fa-check-circle': feedback.type === 'success',
+        'fa-info-circle': feedback.type === 'info',
+        'fa-exclamation-triangle': feedback.type === 'error'
+      }"></i>
+      <span>{{ feedback.message }}</span>
+    </div>
+
+    <ng-container *ngIf="{ items: (items$ | async) ?? [], totals: (totals$ | async) } as data">
+      <section class="cart-items" [class.empty]="data.items.length === 0">
+        <article class="empty-state" *ngIf="data.items.length === 0">
+          <i class="fas fa-box-open"></i>
+          <p>El carrito está vacío. Escaneá un código o selecciona un producto.</p>
+        </article>
+
+        <article class="cart-item" *ngFor="let item of data.items; let i = index; trackBy: trackByIndex">
+          <div class="item-header">
+            <div>
+              <h4>{{ item.name }}</h4>
+              <span>Talle {{ item.variant.talla }} · Color {{ item.variant.color }}</span>
+            </div>
+            <button type="button" class="icon-btn" (click)="removeItem(i)" aria-label="Eliminar">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+
+          <div class="item-body">
+            <div class="quantity-control">
+              <button type="button" (click)="decrement(i, item)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <input type="number" [value]="item.quantity" (change)="onQuantityInput($event, i, item)" min="0"
+                     [max]="item.variant.stock" [attr.aria-label]="'Cantidad de ' + item.name">
+              <button type="button"
+                      (click)="increment(i, item)"
+                      [disabled]="item.variant.stock !== undefined && item.quantity >= item.variant.stock">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="price">
+              <span class="label">Unitario</span>
+              <span class="value">${{ item.price | number:'1.2-2' }}</span>
+            </div>
+            <div class="price">
+              <span class="label">Importe</span>
+              <span class="value">${{ (item.price * item.quantity) | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="cart-footer">
+        <div class="discount-box">
+          <label for="cart-discount">Descuento</label>
+          <div class="input-group">
+            <span>$</span>
+            <input id="cart-discount" type="number" [ngModel]="discount" (ngModelChange)="onDiscountChange($event)" min="0"
+                   [max]="data.totals?.subtotal ?? 0">
+          </div>
+        </div>
+
+        <div class="totals" *ngIf="data.totals as totals">
+          <div class="total-line">
+            <span>Subtotal</span>
+            <span>${{ totals.subtotal | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-line">
+            <span>Descuento</span>
+            <span>${{ totals.discount | number:'1.2-2' }}</span>
+          </div>
+          <div class="total-line total">
+            <span>Total</span>
+            <span>${{ totals.total | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn ghost" (click)="clearCart()" [disabled]="data.items.length === 0">Vaciar</button>
+          <button type="button" class="btn primary" (click)="finalizeSale()" [disabled]="data.items.length === 0">
+            <i class="fas fa-file-invoice"></i> Generar venta
+          </button>
+        </div>
+      </footer>
+    </ng-container>
+  </aside>
+</div>
